@@ -10,6 +10,8 @@ clear all
 close all
 clc
 rng(10)
+%% Generate samples on the model manifold and the n-simplex
+sample_on_model_and_n_simplex % Generate data-samples wrt Fisher Inf
 %% Define the model and the metric
 samples=1000; % Number of samples must be less than the data set (50000)       
 syms x y1 y2 z1 z2
