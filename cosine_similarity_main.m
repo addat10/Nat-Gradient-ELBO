@@ -35,9 +35,9 @@ dphi_V=jacobian(p_V,theta);
 G_V=simplify(transpose(dphi_V)*inv(diag(p_V))*dphi_V);
 
 %% Load data
-data_ic=load('samples_non_cylindrical');
+data_ic=load('./data/samples_non_cylindrical');
 theta_sample=data_ic.sampleValues';
-data_target=load('samples_non_cylindrical_target');
+data_target=load('./data/samples_non_cylindrical_target');
 p_target_sample=[data_target.sampleValues_target,1-sum(data_target.sampleValues_target,2)];
 
 % Initialization
@@ -92,7 +92,7 @@ for i=1:samples
         i/50000
     end
 end
-save('data_for_cosine_sim_histogram')
+save('./data/data_for_cosine_sim_histogram')
 %% Plot results
 n_bins=15;
 figure()

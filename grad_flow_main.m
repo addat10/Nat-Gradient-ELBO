@@ -98,9 +98,9 @@ J_rec=transpose(jacobian(L_rec,theta)); % Jacobian of the Loss wrt parameters
 if save_data
     switch model
         case 1
-            save('non_cylindrical_model')
+            save('./data/non_cylindrical_model')
         case 2
-            save('cylindrical_model')
+            save('./data/cylindrical_model')
     end
 end
 %% Produce figures from the simulated data

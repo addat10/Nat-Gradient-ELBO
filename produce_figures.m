@@ -9,14 +9,13 @@ clc
 close all
 %% Load data if not already present in workspace
 if ~exist('model')
-    model=2; % 1: non-cylindrical model, 2: cylindrical
+    model=1; % 1: non-cylindrical model, 2: cylindrical
     switch model
         case 1
-            load('non_cylindrical_model.mat')
-            % sim_id=2; 
-            sim_id=8;
+            load('./data/non_cylindrical_model.mat')
+            sim_id=2;% sim_id= 2 and 8 are used in the figures
         case 2
-            load('cylindrical_model.mat')
+            load('./data/cylindrical_model.mat')
             sim_id=1;
     end 
 end
@@ -89,8 +88,8 @@ figure(4)
 % Plot the model space if required
 switch model
     case 1
-        plot_full_model(W,origin)
-        hold on
+        % plot_full_model(W,origin)
+        % hold on
     case 2
         plot_independece_model(W,origin)
         hold on
