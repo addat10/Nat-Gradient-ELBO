@@ -2,7 +2,6 @@
 % For Paper
 % "On the Natural Gradient of the Evidence Lower Bound"
 % by Nihat Ay, Jesse van Oostrum and Adwait Datar
-% Author for the code: Adwait Datar
 %--------------------------------------------------------------------------
 % This script is used to simulate gradient flows for the cylindrical and
 % non-cylindrical model 
@@ -98,9 +97,9 @@ J_rec=transpose(jacobian(L_rec,theta)); % Jacobian of the Loss wrt parameters
 if save_data
     switch model
         case 1
-            save('./data/non_cylindrical_model')
+            save('./data/traj_non_cylindrical_model')
         case 2
-            save('./data/cylindrical_model')
+            save('./data/traj_cylindrical_model')
     end
 end
 %% Produce figures from the simulated data

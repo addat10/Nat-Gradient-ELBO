@@ -2,20 +2,19 @@
 % For Paper
 % "On the Natural Gradient of the Evidence Lower Bound"
 % by Nihat Ay, Jesse van Oostrum and Adwait Datar
-% Author for the code: Adwait Datar
 %--------------------------------------------------------------------------
 % This script is used to plot the simulated trajectories
 clc
 close all
 %% Load data if not already present in workspace
 if ~exist('model')
-    model=1; % 1: non-cylindrical model, 2: cylindrical
+    model=2; % 1: non-cylindrical model, 2: cylindrical
     switch model
         case 1
-            load('./data/non_cylindrical_model.mat')
-            sim_id=2;% sim_id= 2 and 8 are used in the figures
+            load('./data/traj_non_cylindrical_model.mat')
+            sim_id=8;% sim_id= 2 and 8 are used in the figures
         case 2
-            load('./data/cylindrical_model.mat')
+            load('./data/traj_cylindrical_model.mat')
             sim_id=1;
     end 
 end

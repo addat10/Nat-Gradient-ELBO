@@ -2,7 +2,6 @@
 % For Paper
 % "On the Natural Gradient of the Evidence Lower Bound"
 % by Nihat Ay, Jesse van Oostrum and Adwait Datar
-% Author for the code: Adwait Datar
 %--------------------------------------------------------------------------
 % This script generates the cosine similarity histograms for the 5 variable
 % non-cylindrical Bayesian model
@@ -13,7 +12,7 @@ rng(10)
 %% Generate samples on the model manifold and the n-simplex
 sample_on_model_and_n_simplex % Generate data-samples wrt Fisher Inf
 %% Define the model and the metric
-samples=1000; % Number of samples must be less than the data set (50000)       
+samples=50000; % Number of samples must be less than the data set (50000)
 syms x y1 y2 z1 z2
 theta= [x;y1;y2;z1;z2];
 n_param=size(theta,1);
@@ -43,14 +42,29 @@ data_target=load('./data/samples_non_cylindrical_target');
 p_target_sample=[data_target.sampleValues_target,1-sum(data_target.sampleValues_target,2)];
 
 % Initialization
-cos_sim=zeros(samples,1);
-cos_sim_rec=zeros(samples,1);
-cos_sim_GAP=zeros(samples,1);
-cos_sim_GAP2=zeros(samples,1);
+cos_sim=zeros(1,samples);
+cos_sim_rec=zeros(1,samples);
+cos_sim_GAP=zeros(1,samples);
+cos_sim_GAP2=zeros(1,samples);
+
+grad_V_all=zeros(n_param,samples);
+grad_rec_all=zeros(n_param,samples);
+grad_all=zeros(n_param,samples);
+
+G_num_all=zeros(n_param,n_param,samples);
+G_V_num_all=zeros(n_param,n_param,samples);
+
+dphi_num_all=zeros(size(p,1),n_param,samples);
+dphi_V_num_all=zeros(size(p_V,1),n_param,samples);
+
+GRAD_V_all=zeros(size(p_V,1),samples);
+GRAD_D_Q_p_all=zeros(size(p,1),samples);
+GRAD_D_q_p_all=zeros(size(p,1),samples);
 %% Compute the cosine similarity on the generated samples
 for i=1:samples
     % Define the target and initial distribution for the visible nodes
-    p_star=p_target_sample(i,:)';
+    % p_star=[0.1816;0.0056;0.5750;0.0178;0.1750;0.0054;0.0384;0.0012];%p_target_sample(i,:)';
+    p_star=p_target_sample(41577,:)';
     p_star_V=Pi*p_star; % reference distribution of the visible nodes 
     
     % Compute the Loss on the visible nodes and its jacobian
@@ -80,16 +94,28 @@ for i=1:samples
     grad=pinv(G_num)*J_num;    
     grad_rec=pinv(G_num)*J_rec_num;
 
+    % Store for later post-processing
+    grad_V_all(:,i)=grad_V;
+    grad_rec_all(:,i)=grad_rec;
+    grad_all(:,i)=grad;
+    G_num_all(:,:,i)=G_num;
+    G_V_num_all(:,:,i)=G_V_num;
+    dphi_num_all(:,:,i)=double(subs(dphi,theta,theta_sample(:,i)));
+    dphi_V_num_all(:,:,i)=double(subs(dphi_V,theta,theta_sample(:,i)));
+    GRAD_V_all=dphi_V_num_all(:,:,i)*grad_V;
+    GRAD_D_Q_p_all=dphi_num_all(:,:,i)*grad_rec;
+    GRAD_D_q_p_all=dphi_num_all(:,:,i)*grad;
+
     % Compute norms of the gradients on the fisher metric at the visible
     % nodes
     norm_grad_V=sqrt(grad_V'*G_V_num*grad_V);
     norm_grad=sqrt(grad'*G_V_num*grad);
     norm_grad_rec=sqrt(grad_rec'*G_V_num*grad_rec);
     
-    cos_sim(i,1)=(grad'*G_V_num*grad_V)/(norm_grad*norm_grad_V);
-    cos_sim_rec(i,1)=(grad_rec'*G_V_num*grad_V)/(norm_grad_rec*norm_grad_V);
-    cos_sim_GAP(i,1)=(grad_rec'*G_V_num*grad)/(norm_grad_rec*norm_grad);
-    cos_sim_GAP2(i,1)=(grad_rec'*G_num*grad)/((grad_rec'*G_num*grad_rec)*(grad'*G_num*grad));
+    cos_sim(1,i)=(grad'*G_V_num*grad_V)/(norm_grad*norm_grad_V);
+    cos_sim_rec(1,i)=(grad_rec'*G_V_num*grad_V)/(norm_grad_rec*norm_grad_V);
+    cos_sim_GAP(1,i)=(grad_rec'*G_V_num*grad)/(norm_grad_rec*norm_grad);
+    cos_sim_GAP2(1,i)=(grad_rec'*G_num*grad)/((grad_rec'*G_num*grad_rec)*(grad'*G_num*grad));
     if mod(i,1000)==0
         i/50000
     end

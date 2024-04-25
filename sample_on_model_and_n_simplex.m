@@ -2,7 +2,6 @@
 % For Paper
 % "On the Natural Gradient of the Evidence Lower Bound"
 % by Nihat Ay, Jesse van Oostrum and Adwait Datar
-% Author for the code: Adwait Datar
 %--------------------------------------------------------------------------
 % This script is used to generate samples on the model manifold and on the 
 % simplex to generate target distributions
