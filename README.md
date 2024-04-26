@@ -1,7 +1,5 @@
 # Code for paper: On the Natural Gradient of the Evidence Lower Bound
 
-## General
-
 This repository contains the simulation code to reproduce the figures from the paper "On the Natural Gradient of the Evidence Lower Bound" by Nihat Ay, Jesse van Ostrum and Adwait Datar.
 
 The code has the following entry points:
