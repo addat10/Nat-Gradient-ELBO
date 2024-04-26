@@ -1,4 +1,4 @@
-# On the Natural Gradient of the Evidence Lower Bound
+# Code for paper: On the Natural Gradient of the Evidence Lower Bound
 
 ## General
 
